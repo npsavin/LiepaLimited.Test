@@ -19,6 +19,7 @@ namespace LiepaLimited.Test.Handlers
         private const string Basic = "Basic";
         private const string InvalidHeader = "Invalid Authorization Header";
         private const string InvalidLoginOrPassword = "Invalid username or password";
+        //private const string EncodingCode = "iso-8859-1";
         public BasicAuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
@@ -28,12 +29,12 @@ namespace LiepaLimited.Test.Handlers
         {
         }
 
-        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             var authHeader = Request.Headers[AuthorizationHeader].ToString();
             if (string.IsNullOrEmpty(authHeader))
             {
-                return Fail(InvalidHeader);
+                return await Fail(InvalidHeader);
             }
 
             var authHeaderVal = AuthenticationHeaderValue.Parse(authHeader);
@@ -42,14 +43,13 @@ namespace LiepaLimited.Test.Handlers
                     StringComparison.OrdinalIgnoreCase) ||
                 authHeaderVal.Parameter == null)
             {
-                return Fail(InvalidHeader);
+                return await Fail(InvalidHeader);
             }
 
             var credentials = authHeaderVal.Parameter;
             try
             {
-                var encoding = Encoding.GetEncoding("iso-8859-1");
-                credentials = encoding.GetString(Convert.FromBase64String(credentials));
+                credentials = Encoding.ASCII.GetString(Convert.FromBase64String(credentials));
 
                 var separator = credentials.IndexOf(':');
                 var name = credentials.Substring(0, separator);
@@ -60,24 +60,24 @@ namespace LiepaLimited.Test.Handlers
                     var claims = new[] { new Claim("name", name) };
                     var identity = new ClaimsIdentity(claims, Basic);
                     var claimsPrincipal = new ClaimsPrincipal(identity);
-                    return Task.FromResult(
+                    return await Task.FromResult(
                         AuthenticateResult.Success(new AuthenticationTicket(claimsPrincipal, Scheme.Name)));
                 }
 
-                return Fail(InvalidLoginOrPassword);
+                return await Fail(InvalidLoginOrPassword);
             }
             catch
             {
-                return Fail(InvalidHeader);
+                return await Fail(InvalidHeader);
             }
 
         }
 
-        private Task<AuthenticateResult> Fail(string message)
+        private async Task<AuthenticateResult> Fail(string message)
         {
             Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             Response.Headers.Add(RealmHeaderName, RealmHeader);
-            return Task.FromResult(AuthenticateResult.Fail(message));
+            return await Task.FromResult(AuthenticateResult.Fail(message));
         }
 
         private static bool CheckPassword(string username, string password)

@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiepaLimited.Test.Database"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiepaLimited.Test.Domain", "LiepaLimited.Test.Domain\LiepaLimited.Test.Domain.csproj", "{62FADCC6-C134-4CE4-A8CA-7345E022DE13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiepaLimited.Test.ConsoleApp", "LiepaLimited.Test.ConsoleApp\LiepaLimited.Test.ConsoleApp.csproj", "{BDAFDB73-0C91-4FCE-9FFB-219F899EA343}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{62FADCC6-C134-4CE4-A8CA-7345E022DE13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62FADCC6-C134-4CE4-A8CA-7345E022DE13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62FADCC6-C134-4CE4-A8CA-7345E022DE13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDAFDB73-0C91-4FCE-9FFB-219F899EA343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDAFDB73-0C91-4FCE-9FFB-219F899EA343}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDAFDB73-0C91-4FCE-9FFB-219F899EA343}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDAFDB73-0C91-4FCE-9FFB-219F899EA343}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

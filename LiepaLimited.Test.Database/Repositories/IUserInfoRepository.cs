@@ -6,7 +6,7 @@ namespace LiepaLimited.Test.Database.Repositories
 {
     public interface IUserInfoRepository
     {
-        Task<UserInfo> GetAsync(int id);
+        Task<UserInfo> GetAsync(int id, CancellationToken cancellationToken);
         Task<bool> AnyAsync(int id, CancellationToken cancellationToken);
         Task<UserInfo> AddAsync(UserInfo user, CancellationToken cancellationToken);
         Task<UserInfo> RemoveAsync(int id, CancellationToken cancellationToken);

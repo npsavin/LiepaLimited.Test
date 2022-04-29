@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using LiepaLimited.Test.Application.Dto;
@@ -21,9 +22,9 @@ namespace LiepaLimited.Test.Controllers
         }
 
         [Route("UserInfo")]
-        public async Task<IActionResult> GetUserInfoAsync([FromQuery] int id)
+        public async Task<IActionResult> GetUserInfoAsync([FromQuery] int id, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new GetUserInfoQuery(id));
+            var result = await _mediator.Send(new GetUserInfoQuery(id), cancellationToken);
             return View(_mapper.Map<UserInfoDto>(result));
         }
     }

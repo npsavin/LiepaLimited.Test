@@ -14,7 +14,7 @@ namespace LiepaLimited.Test.Database.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<UserInfo> GetAsync(int id)
+        public async Task<UserInfo> GetAsync(int id, CancellationToken cancellationToken)
         {
             return await _context.Users.FindAsync(id);
         }

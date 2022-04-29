@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using LiepaLimited.Test.Application.Command;
@@ -21,8 +22,8 @@ namespace LiepaLimited.Test.Controllers
         private readonly IMapper _mapper;
         public AuthController(IMediator mediator, IMapper mapper)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator)); ;
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper)); ;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpPost("CreateUser")]
@@ -31,10 +32,10 @@ namespace LiepaLimited.Test.Controllers
         [ProducesResponseType(typeof(UserInfoDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.Forbidden)]
-        public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserRequestDto createReequestDto)
+        public async Task<CreateUserResponseDto> CreateUserAsync([FromBody] CreateUserRequestDto createReequestDto, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new CreateUserCommand(_mapper.Map<UserInfo>(createReequestDto.User)));
-            return Ok(new CreateUserResponseDto(_mapper.Map<UserInfoDto>(result)));
+            var result = await _mediator.Send(new CreateUserCommand(_mapper.Map<UserInfo>(createReequestDto.User)), cancellationToken);
+            return new CreateUserResponseDto(_mapper.Map<UserInfoDto>(result));
         }
 
         [HttpPost("RemoveUser")]
@@ -43,12 +44,12 @@ namespace LiepaLimited.Test.Controllers
         [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.Forbidden)]
-        public async Task<RemoveUserResponseDto> RemoveUserAsync(RemoveUserRequestDto removeRequestDto)
+        public async Task<RemoveUserResponseDto> RemoveUserAsync(RemoveUserRequestDto removeRequestDto, CancellationToken cancellationToken)
         {
             if (removeRequestDto?.RemoveUser == null)
                 throw new BadRequestException("Request can't be null");
 
-            var result = await _mediator.Send(new RemoveUserCommand(removeRequestDto.RemoveUser.Id));
+            var result = await _mediator.Send(new RemoveUserCommand(removeRequestDto.RemoveUser.Id), cancellationToken);
             return new RemoveUserResponseDto(_mapper.Map<UserInfoDto>(result));
 
         }
@@ -59,9 +60,9 @@ namespace LiepaLimited.Test.Controllers
         [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.Forbidden)]
-        public async Task<UserInfoDto> SetStatusAsync([FromForm] int id, [FromForm] string newStatus)
+        public async Task<UserInfoDto> SetStatusAsync([FromForm] int id, [FromForm] string newStatus, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new SetUserStatusCommand(id, newStatus));
+            var result = await _mediator.Send(new SetUserStatusCommand(id, newStatus), cancellationToken);
             return _mapper.Map<UserInfoDto>(result);
         }
     }

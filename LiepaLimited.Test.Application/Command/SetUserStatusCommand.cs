@@ -33,7 +33,7 @@ namespace LiepaLimited.Test.Application.Command
 
         public async Task<UserInfo> Handle(SetUserStatusCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userInfoRepository.GetAsync(request.Id);
+            var user = await _userInfoRepository.GetAsync(request.Id, cancellationToken);
             if (user == null)
                 throw new UserNotFoundException($"User with id {request.Id} not found");
 
