@@ -5,7 +5,6 @@ using AutoMapper;
 using LiepaLimited.Test.Application.Dto;
 using LiepaLimited.Test.Application.Queries;
 using MediatR;
-using Microsoft.AspNetCore.Diagnostics;
 
 namespace LiepaLimited.Test.Controllers
 {
@@ -17,8 +16,8 @@ namespace LiepaLimited.Test.Controllers
         private readonly IMapper _mapper;
         public PublicController(IMediator mediator, IMapper mapper)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator)); ;
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper)); ;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [Route("UserInfo")]

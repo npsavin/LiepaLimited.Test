@@ -28,7 +28,7 @@ namespace LiepaLimited.Test.Application.Command
 
         public SetUserStatusCommandHandler(IUserInfoRepository userInfoRepository)
         {
-            _userInfoRepository = userInfoRepository ?? throw new ArgumentNullException(nameof(userInfoRepository)); ;
+            _userInfoRepository = userInfoRepository ?? throw new ArgumentNullException(nameof(userInfoRepository));
         }
 
         public async Task<UserInfo> Handle(SetUserStatusCommand request, CancellationToken cancellationToken)

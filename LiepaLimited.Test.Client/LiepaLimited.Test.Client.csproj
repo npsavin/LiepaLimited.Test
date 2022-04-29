@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\LiepaLimited.Test.Application\Dto\BaseResponseDto.cs" Link="Dto\BaseResponseDto.cs" />
+    <Compile Include="..\LiepaLimited.Test.Application\Dto\CreateUserRequestDto.cs" Link="Dto\CreateUserRequestDto.cs" />
+    <Compile Include="..\LiepaLimited.Test.Application\Dto\CreateUserResponseDto.cs" Link="Dto\CreateUserResponseDto.cs" />
+    <Compile Include="..\LiepaLimited.Test.Application\Dto\ErrorResponseDto.cs" Link="Dto\ErrorResponseDto.cs" />
+    <Compile Include="..\LiepaLimited.Test.Application\Dto\RemoveUserDto.cs" Link="Dto\RemoveUserDto.cs" />
+    <Compile Include="..\LiepaLimited.Test.Application\Dto\RemoveUserRequestDto.cs" Link="Dto\RemoveUserRequestDto.cs" />
+    <Compile Include="..\LiepaLimited.Test.Application\Dto\RemoveUserResponseDto.cs" Link="Dto\RemoveUserResponseDto.cs" />
+    <Compile Include="..\LiepaLimited.Test.Application\Dto\UserInfoDto.cs" Link="Dto\UserInfoDto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dto\" />
+  </ItemGroup>
+
+</Project>

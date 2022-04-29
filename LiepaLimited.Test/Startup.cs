@@ -2,14 +2,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using LiepaLimited.Test.Application;
 using LiepaLimited.Test.Application.Cache;
 using LiepaLimited.Test.Database;
 using LiepaLimited.Test.Handlers;
+using LiepaLimited.Test.Jobs;
 using LiepaLimited.Test.Middleware;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.OpenApi.Models;
+using Quartz;
 
 namespace LiepaLimited.Test
 {
@@ -38,10 +38,8 @@ namespace LiepaLimited.Test
                     ("BasicAuthentication", null);
             services.AddAuthorization();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "LiepaLimited.Test", Version = "v1" });
-            });
+            ConfigureJob(services);
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ICacheService cache)
@@ -49,9 +47,6 @@ namespace LiepaLimited.Test
             
             cache.Init();
             app.UseRouting();
-
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LiepaLimited.Test v1"));
 
             app.UseMiddleware<ExceptionMiddleware>();
 
@@ -64,6 +59,29 @@ namespace LiepaLimited.Test
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void ConfigureJob(IServiceCollection services)
+        {
+            const string jobIdentity = "UpdateCacheJob";
+            services.AddQuartz(q =>
+            {
+                q.UseMicrosoftDependencyInjectionJobFactory();
+                q.UseDefaultThreadPool(1);
+                var jobKey = new JobKey(jobIdentity);
+                q.AddJob<UpdateCacheJob>(opt => opt.WithIdentity(jobKey));
+                q.AddTrigger(opts => opts
+                    .ForJob(jobKey)
+                    .WithIdentity(jobIdentity)
+                    .WithSimpleSchedule(x => x.WithIntervalInMinutes(10).RepeatForever()));
+            });
+            services.AddQuartzServer(
+                q =>
+                {
+                    q.AwaitApplicationStarted = true;
+                    q.WaitForJobsToComplete = true;
+                });
+
         }
     }
 }

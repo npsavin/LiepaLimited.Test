@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace LiepaLimited.Test.Application.Dto
+﻿namespace LiepaLimited.Test.Application.Dto
 {
     public class RemoveUserRequestDto
     {

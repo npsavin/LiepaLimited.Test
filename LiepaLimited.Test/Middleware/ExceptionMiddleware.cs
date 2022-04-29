@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using LiepaLimited.Test.Application.Dto;
 using LiepaLimited.Test.Application.Exceptions;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 
 namespace LiepaLimited.Test.Middleware
 {

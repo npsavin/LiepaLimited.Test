@@ -1,6 +1,4 @@
-﻿
-using System;
-using AutoMapper;
+﻿using AutoMapper;
 using LiepaLimited.Test.Application.Dto;
 using LiepaLimited.Test.Domain;
 
